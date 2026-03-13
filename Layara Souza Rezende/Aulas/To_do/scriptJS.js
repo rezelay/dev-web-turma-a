@@ -3,7 +3,7 @@ window.onload = function () {
     const btnAdicionar = this.document.getElementById("btnAdicionar");
     const lista = this.document.getElementById("listaTarefas");
 
-    btnAdicionar.addEventListener("click", () => {
+    function addNewTodo() {
         //recupera o valor do campo input text
         const texto = input.value.trim();
 
@@ -35,8 +35,12 @@ window.onload = function () {
 
         //Limpa o valor após a adição. Não remove o que está escrito, meio que "mascara" o que está escrito
         input.value = "";
+    }
 
-
-
+    btnAdicionar.addEventListener("click", addNewTodo);
+    input.addEventListener('keydown', (event) => {
+        if (event.key === "Enter") {
+            addNewTodo();
+        }
     });
 };
