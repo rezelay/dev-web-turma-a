@@ -6,9 +6,14 @@
     <br />
     <home-component />
     <br />
-    <usuario-component />
+    <usuario-component v-show="isUsuarioVisivel" />
     <br />
     <estilo-component />
+    <br>
+    <imagem-component 
+    @visibilidade-img="escutarVisibilidadeImg"
+    larguraImg="300"
+    url-img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEM8zcXJEtDgvzjl4FtNfno4bTNnx2dQx8jQ&s"/>
   </div>
 </template>
 
@@ -16,13 +21,25 @@
 import HomeComponent from "./components/HomeComponent.vue";
 import UsuarioComponent from "./components/UsuarioComponent.vue";
 import EstiloComponent from "./components/EstiloComponent.vue";
+import ImagemComponent from "./components/ImagemComponent.vue";
 
 export default {
   name: "App",
   components: {
     HomeComponent,
     UsuarioComponent,
-    EstiloComponent
+    EstiloComponent,
+    ImagemComponent
+  },
+  data() {
+    return {
+      isUsuarioVisivel: false
+    };
+  },
+  methods: { /* methods é um objeto*/
+    escutarVisibilidadeImg(isImgComponentVisivel){
+this.isUsuarioVisivel = !isImgComponentVisivel;
+    }
   },
   mounted() {
     console.log("mounted");
