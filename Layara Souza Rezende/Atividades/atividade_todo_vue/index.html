@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarefas</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            font-family: 'Gill Sans';
+            background: #cdcdcd;
+            padding: 16px;
+        }
+
+        h1 {
+            color: palevioletred;
+            text-align: center;
+        }
+
+        .input-area {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        #tarefaInput {
+            padding: 8px;
+            width: 500px;
+            border-radius: 8px;
+        }
+
+        #btnAdicionar {
+            padding: 8px 28px;
+            margin-left: 5px;
+            color: white;
+            background-color: gold;
+            border: #333;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        #btnAdicionar:hover {
+            color: white;
+            background-color: rgb(130, 114, 27);
+            transition: 0.5s;
+        }
+
+        ul {
+            padding: 0px;
+            margin-left: 50px;
+        }
+
+        li {
+            background: #fff;
+            margin: 16px 16px;
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+        }
+
+        li.concluida {
+            text-decoration: line-through;
+            color: red;
+        }
+
+        .fechar {
+            background-color: red;
+            color: white;
+            border: #333;
+            border-radius: 100px;
+            cursor: pointer;
+        }
+
+        .concluir {
+            background-color: green;
+            color: white;
+            border: #333;
+            border-radius: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Tasks To Do</h1>
+
+        <div class="input-area">
+            <input type="text" id="tarefaInput" placeholder="Digite sua tarefa" v-model="novaTarefa"
+                @keydown.enter="adicionarTarefa">
+            <button id="btnAdicionar" @click="adicionarTarefa">+</button>
+        </div>
+
+        <ul>
+            <li v-for="tarefa in tarefas" :key="tarefa.id" :class="{ concluida: tarefa.concluida }"
+                @click.self="toggleConcluida(tarefa)">
+                <span>{{ tarefa.texto }}</span>
+                <div class="acoes">
+                    <button class="concluir" @click="toggleConcluida(tarefa)">✔</button>
+                    <button class="fechar" @click="removerTarefa(tarefa.id)">x</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    novaTarefa: '',
+                    tarefas: []
+                };
+            },
+            methods: {
+                adicionarTarefa() {
+                    const texto = this.novaTarefa.trim();
+                    if (texto === '') return;
+
+                    this.tarefas.push({
+                        id: Date.now(),
+                        texto: texto,
+                        concluida: false
+                    });
+
+                    this.novaTarefa = '';
+                },
+                toggleConcluida(tarefa) {
+                    tarefa.concluida = !tarefa.concluida;
+                },
+                removerTarefa(id) {
+                    this.tarefas = this.tarefas.filter(tarefa => tarefa.id !== id);
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
